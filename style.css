@@ -290,3 +290,79 @@ body {
   color: #777;
   white-space: nowrap;
 }
+
+/* ---------- Reminder clock ---------- */
+
+.clock {
+  max-width: 320px;
+  text-align: center;
+}
+
+/* The big live clock */
+#clock-time {
+  font-size: 44px;
+  font-weight: bold;
+  color: #333;
+  font-variant-numeric: tabular-nums; /* digits all the same width, so it doesn't wiggle */
+}
+
+#clock-date {
+  color: #777;
+  margin-bottom: 12px;
+}
+
+/* The reminder time box next to the task text */
+#todo-time {
+  flex: 0 0 auto;            /* don't stretch like the text box does */
+  width: 110px;
+}
+
+/* The yellow box that shows a ringing reminder */
+#alarm-box {
+  background: #fff4cc;
+  border: 2px solid #ffc83d;
+  border-radius: 8px;
+  padding: 8px;
+  animation: shake 0.5s 3;   /* wiggle 3 times to get your attention */
+}
+
+#alarm-box[hidden] {
+  display: none;
+}
+
+.alarm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.alarm strong {
+  flex: 1;
+  text-align: left;
+}
+
+.alarm button {
+  padding: 4px 8px;
+  font-size: 13px;
+}
+
+#next-reminder {
+  color: #555;
+  font-size: 14px;
+}
+
+#enable-notify {
+  width: 100%;
+}
+
+#enable-notify:disabled {
+  background: #9bb5f5;
+  cursor: default;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  75%      { transform: translateX(4px); }
+}

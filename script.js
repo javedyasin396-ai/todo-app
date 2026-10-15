@@ -3,6 +3,7 @@
 // STEP 1: Grab the HTML elements we need, using their id
 const form = document.getElementById("todo-form");
 const input = document.getElementById("todo-input");
+const timeInput = document.getElementById("todo-time");
 const list = document.getElementById("todo-list");
 const counter = document.getElementById("counter");
 const filterLabel = document.getElementById("filter-label");
@@ -17,6 +18,20 @@ let selectedDate = null;
 function formatDate(key) {
   const date = new Date(key + "T00:00"); // T00:00 = midnight, in your time zone
   return date.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+}
+
+// Turn "17:30" into something friendly like "5:30 PM"
+function formatTime(time) {
+  const date = new Date("2000-01-01T" + time); // any day works, we only want the time
+  return date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+}
+
+// Today's date as a key like "2026-10-15"
+function todayAsKey() {
+  const now = new Date();
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  return now.getFullYear() + "-" + mm + "-" + dd;
 }
 
 // STEP 2: Load saved tasks from the browser's storage (or start with an empty list)
@@ -80,6 +95,14 @@ function renderTodos() {
       li.appendChild(dateTag);
     }
 
+    // A small reminder tag, if the task has a reminder time
+    if (todo.time) {
+      const timeTag = document.createElement("small");
+      timeTag.className = "date-tag";
+      timeTag.textContent = (todo.reminded ? "🔕 " : "⏰ ") + formatTime(todo.time);
+      li.appendChild(timeTag);
+    }
+
     li.appendChild(deleteBtn);
     list.appendChild(li);
   });
@@ -113,14 +136,27 @@ showAllBtn.addEventListener("click", function () {
 });
 
 // Add a new task to the list. The calculator (calculator.js) uses this too!
-function addTodo(text) {
+// "time" is optional, like "17:30". It sets a reminder (clock.js rings it).
+function addTodo(text, time) {
   text = text.trim(); // .trim() removes extra spaces
   if (text === "") {
     return; // don't add empty tasks
   }
 
   // If a day is picked in the calendar, the new task gets that date
-  todos.push({ text: text, done: false, date: selectedDate }); // add to the end of the array
+  let date = selectedDate;
+  // A reminder needs a day. If none is picked, use today...
+  if (time && date === null) {
+    date = todayAsKey();
+    // ...unless that time already passed today, then use tomorrow
+    if (new Date(date + "T" + time) < new Date()) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      date = tomorrow.getFullYear() + "-" + String(tomorrow.getMonth() + 1).padStart(2, "0") + "-" + String(tomorrow.getDate()).padStart(2, "0");
+    }
+  }
+
+  todos.push({ text: text, done: false, date: date, time: time || null, reminded: false });
   saveTodos();
   renderTodos();
 }
@@ -128,8 +164,9 @@ function addTodo(text) {
 // STEP 4: When the form is submitted (Add button or Enter key), add a new task
 form.addEventListener("submit", function (event) {
   event.preventDefault(); // stop the page from reloading
-  addTodo(input.value);
+  addTodo(input.value, timeInput.value);
   input.value = ""; // clear the text box
+  timeInput.value = "";
 });
 
 // STEP 5: Show the tasks when the page first opens

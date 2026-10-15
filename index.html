@@ -16,6 +16,8 @@
     <!-- A form with a text box and a button to add tasks -->
     <form id="todo-form">
       <input id="todo-input" type="text" placeholder="What do you need to do?" autocomplete="off">
+      <!-- Optional: pick a time to get a reminder -->
+      <input id="todo-time" type="time" title="Reminder time (optional)">
       <button type="submit">Add</button>
     </form>
 
@@ -30,6 +32,24 @@
 
     <!-- Shows how many tasks are left -->
     <p id="counter"></p>
+  </div>
+
+  <!-- The reminder clock card -->
+  <div class="app clock">
+    <h1>⏰ Reminder Clock</h1>
+
+    <!-- The big live clock -->
+    <div id="clock-time">--:--:--</div>
+    <div id="clock-date"></div>
+
+    <!-- Appears when a reminder rings. JavaScript fills it in -->
+    <div id="alarm-box" hidden></div>
+
+    <!-- The next reminder that is coming up -->
+    <p id="next-reminder"></p>
+
+    <button id="enable-notify">🔔 Turn on notifications</button>
+    <p class="cal-tip">Pick a time next to a new task to get a reminder.</p>
   </div>
 
   <!-- The calendar card -->
@@ -101,6 +121,7 @@
   <!-- script.js must come first, because the other files use its addTodo(), todos, etc. -->
   <script src="script.js"></script>
   <script src="calendar.js"></script>
+  <script src="clock.js"></script>
   <script src="calculator.js"></script>
 </body>
 </html>
