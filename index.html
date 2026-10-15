@@ -27,11 +27,24 @@
       <button id="show-all">Show all</button>
     </p>
 
+    <!-- Search box and filter buttons -->
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="🔍 Search tasks..." autocomplete="off">
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="active">Active</button>
+        <button class="filter-btn" data-filter="done">Done</button>
+      </div>
+    </div>
+
     <!-- An empty list. JavaScript will fill it with tasks -->
     <ul id="todo-list"></ul>
 
     <!-- Shows how many tasks are left -->
-    <p id="counter"></p>
+    <div class="list-footer">
+      <p id="counter"></p>
+      <button id="clear-done">🧹 Clear completed</button>
+    </div>
   </div>
 
   <!-- The reminder clock card -->

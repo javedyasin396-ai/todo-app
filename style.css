@@ -366,3 +366,68 @@ body {
   25%      { transform: translateX(-4px); }
   75%      { transform: translateX(4px); }
 }
+
+/* ---------- Search & filters ---------- */
+
+/* Search box and filter buttons side by side (they wrap on small screens) */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+#search {
+  min-width: 150px;
+}
+
+.filters {
+  display: flex;
+  gap: 4px;
+}
+
+/* Filter buttons are grey, the one that is on is blue */
+.filter-btn {
+  padding: 8px 12px;
+  font-size: 14px;
+  background: #e4e9f2;
+  color: #333;
+}
+
+.filter-btn:hover {
+  background: #d3dae8;
+}
+
+.filter-btn.active {
+  background: #4a7dff;
+  color: white;
+}
+
+/* The "Nothing here" message */
+li.empty {
+  justify-content: center;
+  color: #999;
+  font-style: italic;
+}
+
+/* Counter on the left, "Clear completed" on the right */
+.list-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#clear-done {
+  padding: 6px 10px;
+  font-size: 14px;
+  background: #e4e9f2;
+  color: #333;
+}
+
+#clear-done:hover {
+  background: #ffd6d6;
+}
+
+#clear-done[hidden] {
+  display: none;
+}

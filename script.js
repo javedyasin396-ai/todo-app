@@ -9,10 +9,34 @@ const counter = document.getElementById("counter");
 const filterLabel = document.getElementById("filter-label");
 const filterText = document.getElementById("filter-text");
 const showAllBtn = document.getElementById("show-all");
+const searchInput = document.getElementById("search");
+const filterButtons = document.querySelectorAll(".filter-btn");
+const clearDoneBtn = document.getElementById("clear-done");
 
 // The day picked in the calendar, like "2026-10-15" (null = show all tasks)
 // calendar.js changes this when you click a day
 let selectedDate = null;
+
+// What the search box says, and which filter button is on: "all", "active" or "done"
+let searchText = "";
+let statusFilter = "all";
+
+// Does this task match the picked day AND the search box?
+function matchesDayAndSearch(todo) {
+  if (selectedDate !== null && todo.date !== selectedDate) {
+    return false;
+  }
+  // .toLowerCase() so "MILK" also finds "milk"
+  return todo.text.toLowerCase().includes(searchText.toLowerCase());
+}
+
+// Should this task be shown? (day + search + the All/Active/Done buttons)
+function isVisible(todo) {
+  if (!matchesDayAndSearch(todo)) return false;
+  if (statusFilter === "active") return !todo.done;
+  if (statusFilter === "done") return todo.done;
+  return true; // "all"
+}
 
 // Turn "2026-10-15" into something friendly like "Thu, Oct 15"
 function formatDate(key) {
@@ -49,8 +73,8 @@ function renderTodos() {
 
   // Loop over every task. "index" is its position: 0, 1, 2...
   todos.forEach(function (todo, index) {
-    // If a day is picked in the calendar, skip tasks from other days
-    if (selectedDate !== null && todo.date !== selectedDate) {
+    // Skip tasks that don't match the day, search or filter
+    if (!isVisible(todo)) {
       return;
     }
 
@@ -107,12 +131,29 @@ function renderTodos() {
     list.appendChild(li);
   });
 
-  // Count tasks that are NOT done (only the ones we are showing)
+  // If nothing is shown, say so (instead of an empty box)
+  if (list.children.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "empty";
+    empty.textContent = searchText !== "" ? "No tasks match your search." : "Nothing here yet 🎉";
+    list.appendChild(empty);
+  }
+
+  // Count tasks that are NOT done (for the picked day and search)
   const remaining = todos.filter(function (todo) {
-    const visible = selectedDate === null || todo.date === selectedDate;
-    return visible && !todo.done;
+    return matchesDayAndSearch(todo) && !todo.done;
   }).length;
   counter.textContent = remaining + " task(s) left";
+
+  // Only show "Clear completed" when there is something to clear
+  clearDoneBtn.hidden = !todos.some(function (todo) {
+    return todo.done;
+  });
+
+  // Light up the filter button that is on
+  filterButtons.forEach(function (button) {
+    button.classList.toggle("active", button.dataset.filter === statusFilter);
+  });
 
   // Show which day we're looking at (or hide the label when showing all)
   if (selectedDate === null) {
@@ -132,6 +173,35 @@ function renderTodos() {
 // "Show all" button: un-pick the day
 showAllBtn.addEventListener("click", function () {
   selectedDate = null;
+  renderTodos();
+});
+
+// Search: redraw the list every time you type a letter
+searchInput.addEventListener("input", function () {
+  searchText = searchInput.value.trim();
+  renderTodos();
+});
+
+// Filter buttons: All / Active / Done
+filterButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    statusFilter = button.dataset.filter; // from data-filter in the HTML
+    renderTodos();
+  });
+});
+
+// "Clear completed": remove every task that is ticked off
+clearDoneBtn.addEventListener("click", function () {
+  const doneCount = todos.filter(function (todo) {
+    return todo.done;
+  }).length;
+  if (!confirm("Delete " + doneCount + " completed task(s)?")) {
+    return; // you clicked Cancel
+  }
+  todos = todos.filter(function (todo) {
+    return !todo.done; // keep only the tasks that are NOT done
+  });
+  saveTodos();
   renderTodos();
 });
 
