@@ -1,0 +1,292 @@
+/* CSS controls how things LOOK: colors, sizes, spacing */
+
+/* Style the whole page */
+body {
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+  display: flex;
+  justify-content: center;   /* center horizontally */
+  padding: 40px 16px;
+  margin: 0;
+}
+
+/* The white card that holds the app */
+.app {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin-top: 0;
+  text-align: center;
+  color: #333;
+}
+
+/* Put the input and button side by side */
+form {
+  display: flex;
+  gap: 8px;
+}
+
+input {
+  flex: 1;                   /* input takes all remaining space */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  background: #4a7dff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #3563d6;       /* darker when mouse is over it */
+}
+
+/* The list of tasks */
+ul {
+  list-style: none;          /* remove the bullet dots */
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+li span {
+  flex: 1;
+  cursor: pointer;
+}
+
+/* When a task has the "done" class, cross it out */
+li.done span {
+  text-decoration: line-through;
+  color: #999;
+}
+
+/* The small red delete button */
+.delete-btn {
+  background: #ff5a5a;
+  padding: 4px 10px;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background: #d94444;
+}
+
+#counter {
+  text-align: center;
+  color: #777;
+}
+
+/* ---------- Calculator ---------- */
+
+/* Let the two cards sit side by side (and stack on small screens) */
+body {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.calculator {
+  max-width: 320px;
+}
+
+/* The dark screen at the top */
+.calc-screen {
+  background: #222;
+  color: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  text-align: right;
+  margin-bottom: 12px;
+}
+
+#calc-history {
+  min-height: 20px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+#calc-display {
+  font-size: 36px;
+  overflow-x: auto;          /* long numbers can scroll instead of overflowing */
+}
+
+/* A grid with 4 columns for the buttons */
+.calc-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.calc-btn {
+  padding: 16px 0;
+  font-size: 20px;
+  background: #e4e9f2;
+  color: #333;
+}
+
+.calc-btn:hover {
+  background: #d3dae8;
+}
+
+.calc-btn.op {
+  background: #4a7dff;
+  color: white;
+}
+
+.calc-btn.op:hover,
+.calc-btn.equals:hover {
+  background: #3563d6;
+}
+
+.calc-btn.func {
+  background: #c9d1e0;
+}
+
+.calc-btn.equals {
+  background: #4a7dff;
+  color: white;
+  grid-column: span 2;       /* the = button is 2 columns wide */
+}
+
+.calc-btn.zero {
+  grid-column: span 1;
+}
+
+/* The button that sends the result to the to-do list */
+#calc-to-todo {
+  width: 100%;
+  margin-top: 12px;
+  background: #2bb673;
+}
+
+#calc-to-todo:hover {
+  background: #229a60;
+}
+
+/* ---------- Calendar & date filter ---------- */
+
+.calendar {
+  max-width: 340px;
+}
+
+/* Month name in the middle, arrow buttons on the sides */
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+/* 7 columns: one for each day of the week */
+.cal-weekdays,
+#cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.cal-weekdays {
+  margin: 12px 0 4px;
+  font-size: 12px;
+  color: #777;
+}
+
+.cal-day {
+  position: relative;        /* so the badge can sit in the corner */
+  padding: 10px 0;
+  font-size: 14px;
+  background: #f2f5fa;
+  color: #333;
+}
+
+.cal-day:hover {
+  background: #dfe6f3;
+}
+
+/* Today gets a blue outline */
+.cal-day.today {
+  box-shadow: inset 0 0 0 2px #4a7dff;
+  font-weight: bold;
+}
+
+/* The picked day is filled in blue */
+.cal-day.selected {
+  background: #4a7dff;
+  color: white;
+}
+
+/* Little red circle with the number of tasks */
+.cal-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #ff5a5a;
+  color: white;
+  font-size: 10px;
+  min-width: 14px;
+  height: 14px;
+  line-height: 14px;
+  border-radius: 7px;
+}
+
+#cal-today {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.cal-tip {
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+}
+
+/* "Tasks for ..." label above the to-do list */
+#filter-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #eef2ff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #333;
+}
+
+#filter-label[hidden] {
+  display: none;             /* "display: flex" above would otherwise un-hide it */
+}
+
+#show-all {
+  padding: 4px 10px;
+  font-size: 14px;
+}
+
+/* The date shown on each task */
+.date-tag {
+  color: #777;
+  white-space: nowrap;
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- The <head> holds information about the page (not visible content) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My To-Do App</title>
+  <!-- Link our CSS file (the styling) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- The <body> holds everything you SEE on the page -->
+  <div class="app">
+    <h1>📝 My To-Do List</h1>
+
+    <!-- A form with a text box and a button to add tasks -->
+    <form id="todo-form">
+      <input id="todo-input" type="text" placeholder="What do you need to do?" autocomplete="off">
+      <button type="submit">Add</button>
+    </form>
+
+    <!-- Shows which calendar day is picked. Hidden when showing all tasks -->
+    <p id="filter-label" hidden>
+      <span id="filter-text"></span>
+      <button id="show-all">Show all</button>
+    </p>
+
+    <!-- An empty list. JavaScript will fill it with tasks -->
+    <ul id="todo-list"></ul>
+
+    <!-- Shows how many tasks are left -->
+    <p id="counter"></p>
+  </div>
+
+  <!-- The calendar card -->
+  <div class="app calendar">
+    <h1>📅 Calendar</h1>
+
+    <!-- Month name with buttons to go back / forward -->
+    <div class="cal-header">
+      <button id="cal-prev">‹</button>
+      <h2 id="cal-month"></h2>
+      <button id="cal-next">›</button>
+    </div>
+
+    <!-- Names of the week days -->
+    <div class="cal-weekdays">
+      <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
+      <span>Thu</span><span>Fri</span><span>Sat</span>
+    </div>
+
+    <!-- JavaScript fills this with the days of the month -->
+    <div id="cal-grid"></div>
+
+    <button id="cal-today">Go to today</button>
+    <p class="cal-tip">Click a day to see its tasks and add new ones to it.</p>
+  </div>
+
+  <!-- The calculator card -->
+  <div class="app calculator">
+    <h1>🧮 Calculator</h1>
+
+    <!-- Shows the calculation and the current number -->
+    <div class="calc-screen">
+      <div id="calc-history"></div>
+      <div id="calc-display">0</div>
+    </div>
+
+    <!-- The buttons. data-value tells JavaScript what each button means -->
+    <div class="calc-buttons">
+      <button class="calc-btn func" data-value="C">C</button>
+      <button class="calc-btn func" data-value="back">⌫</button>
+      <button class="calc-btn func" data-value="%">%</button>
+      <button class="calc-btn op" data-value="/">÷</button>
+
+      <button class="calc-btn" data-value="7">7</button>
+      <button class="calc-btn" data-value="8">8</button>
+      <button class="calc-btn" data-value="9">9</button>
+      <button class="calc-btn op" data-value="*">×</button>
+
+      <button class="calc-btn" data-value="4">4</button>
+      <button class="calc-btn" data-value="5">5</button>
+      <button class="calc-btn" data-value="6">6</button>
+      <button class="calc-btn op" data-value="-">−</button>
+
+      <button class="calc-btn" data-value="1">1</button>
+      <button class="calc-btn" data-value="2">2</button>
+      <button class="calc-btn" data-value="3">3</button>
+      <button class="calc-btn op" data-value="+">+</button>
+
+      <button class="calc-btn zero" data-value="0">0</button>
+      <button class="calc-btn" data-value=".">.</button>
+      <button class="calc-btn equals" data-value="=">=</button>
+    </div>
+
+    <!-- This button CONNECTS the calculator to the to-do list -->
+    <button id="calc-to-todo">➕ Add result to To-Do list</button>
+  </div>
+
+  <!-- Load our JavaScript files LAST, so the HTML above already exists -->
+  <!-- script.js must come first, because the other files use its addTodo(), todos, etc. -->
+  <script src="script.js"></script>
+  <script src="calendar.js"></script>
+  <script src="calculator.js"></script>
+</body>
+</html>
